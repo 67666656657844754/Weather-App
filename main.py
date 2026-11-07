@@ -11,7 +11,7 @@ root['bg'] = "lightblue"
 # Image paths used for different weather states
 img1 = 'img/4.png'  # Default/loading image
 img2 = 'img/1.png'  # Clear sky image
-img3 = 'img/3.png'  # Other weather image
+img3 = 'img/2.png'  # Other weather image
 
 
 # Read the OpenWeatherMap API key from a local text file
