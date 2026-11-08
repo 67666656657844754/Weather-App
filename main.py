@@ -5,12 +5,22 @@ from tkinter import*
 root = Tk()
 root.geometry("200x200+0+0")
 root.title("Weather App")
-root['bg'] = "lightblue"
+root.config(bg="lightblue")
 
 img1 = 'img/4.png'
 img2 =  'img/1.png'
 img3 =  'img/2.png'
 img4 = 'img/3.png'
+
+
+def bgc(color):
+    root.config(bg=color)
+    des.config(bg=color)
+    tem.config(bg=color)
+    if color == "black":
+        des.config(fg="white")
+        tem.config(bg="white")
+
 
 
 api_key = open("api.txt", "r").read().strip()
@@ -37,9 +47,13 @@ def weather():
         res.raise_for_status()
 
         desp = data["weather"][0]["description"]
+        
+
+    
         temp = round(data["main"]["temp"])
 
         des.config(text=desp)
+        #des2.config(text=desp2)
         tem.config(text=f"{temp}℃")
 
 
@@ -64,17 +78,30 @@ lent.pack()
 
 des = Label(root, text="enter your city", bg="lightblue")
 des.pack()
+#des2 = Label(root, text="", bg="lightblue")
+#des2.pack()
 
 tem = Label(root, text="", bg="lightblue")
 tem.pack()
 
-Bt = Button(root, text="get weather", command=weather)
-Bt.pack()
+#Bt = Button(root, text="get weather", command=weather)
+#Bt.pack()
+
+
 
 
 
 img = PhotoImage(file=img1)
-limg = Label(image=img).pack()
+#limg = Label(image=img).pack()
+Bt = Button(root, text="get weather", command=weather, image=img)
+Bt.pack()
+
+bcbg = Button(root, text="black", command=lambda: bgc("black"),)
+bcbg.pack(side=BOTTOM)
+whbg = Button(root, text="white", command=lambda: bgc("white"),)
+whbg.pack()
+lbbg = Button(root, text="lightblue", command=lambda: bgc("lightblue"),)
+lbbg.pack(side=BOTTOM)
 
 
 
