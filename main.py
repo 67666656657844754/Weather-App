@@ -25,7 +25,7 @@ def bgc(color):
         tem.config(fg="white")
     elif color == "white":
         des.config(fg="black")
-        tem.config(fg="white")          
+        tem.config(fg="black")          
 
 
 # Read the OpenWeatherMap API key from a local text file
