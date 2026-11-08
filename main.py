@@ -6,6 +6,7 @@ root = Tk()
 root.geometry("200x200+0+0")
 root.title("Weather App")
 root.config(bg="lightblue")
+root.resizable(False, False)
 
 # Weather icon images used for different conditions
 img1 = 'img/4.png'  # default image
