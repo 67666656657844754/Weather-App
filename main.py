@@ -111,13 +111,9 @@ fr = Frame(root, bg="lightgray", bd=2, relief=SOLID, padx=10, pady=0)
 fr.pack(padx=20, pady=20)
 
 # Background color buttons
-bcbg = Button(fr, text="black", command=lambda: bgc("black"))
-bcbg.grid(row=20, column=1)
-whbg = Button(fr, text="white", command=lambda: bgc("white"))
-whbg.grid(row=20, column=3)
-lbbg = Button(fr, text="lightblue", command=lambda: bgc("lightblue"))
-lbbg.grid(row=20, column=5)
-
+bcbg = Button(fr, text="black", command=lambda: bgc("black")).grid(row=20, column=1)
+whbg = Button(fr, text="white", command=lambda: bgc("white")).grid(row=20, column=3)
+lbbg = Button(fr, text="lightblue", command=lambda: bgc("lightblue")).grid(row=20, column=5)
 
 # Start the Tkinter event loop
 root.mainloop()
