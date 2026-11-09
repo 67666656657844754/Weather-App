@@ -107,13 +107,14 @@ img = PhotoImage(file=img1)
 Bt = Button(root, text="get weather", command=weather, image=img)
 Bt.pack()
 
-fr = Frame(root, bg="lightgray", bd=2, relief=SOLID, padx=10, pady=0)
-fr.pack(padx=20, pady=20)
+fr = Frame(root, bg="lightgray", bd=2, relief=SOLID)
+fr.pack(padx=0, pady=0)
 
 # Background color buttons
-bcbg = Button(fr, text="black", command=lambda: bgc("black")).grid(row=20, column=1)
-whbg = Button(fr, text="white", command=lambda: bgc("white")).grid(row=20, column=3)
-lbbg = Button(fr, text="lightblue", command=lambda: bgc("lightblue")).grid(row=20, column=5)
+black = Button(fr, text="black", command=lambda: bgc("black")).grid(row=20, column=1)
+white = Button(fr, text="white", command=lambda: bgc("white")).grid(row=20, column=3)
+lightblue = Button(fr, text="lightblue", command=lambda: bgc("lightblue")).grid(row=20, column=5)
+yellow = Button(fr, text="yellow", command=lambda: bgc("yellow")).grid(row=20, column=7)
 
 # Start the Tkinter event loop
 root.mainloop()
