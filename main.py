@@ -25,7 +25,14 @@ def bgc(color):
         tem.config(fg="white")
     elif color == "white":
         des.config(fg="black")
-        tem.config(fg="black")          
+        tem.config(fg="black") 
+    elif color == "yellow":
+         des.config(fg="red")
+         tem.config(fg="red")
+    elif color == "lightblue":
+        des.config(fg="white")
+        tem.config(fg="white")
+                      
 
 
 # Read the OpenWeatherMap API key from a local text file
@@ -84,13 +91,13 @@ def weather():
 
 
 # Input field where the user types a city name
-lent = Entry(root)
-lent.pack()
+lent = Entry(root).pack()
+
 
 # Label for weather description
 # (example text shown before the user searches for a city)
-des = Label(root, text="enter your city", bg="lightblue")
-des.pack()
+des = Label(root, text="enter your city", bg="lightblue").pack()
+
 
 # Label for temperature
 # (initially empty until a city is searched)
@@ -108,7 +115,7 @@ Bt = Button(root, text="get weather", command=weather, image=img)
 Bt.pack()
 
 fr = Frame(root, bg="lightgray", bd=2, relief=SOLID)
-fr.pack(padx=0, pady=0)
+fr.pack(side=BOTTOM)
 
 # Background color buttons
 black = Button(fr, text="black", command=lambda: bgc("black")).grid(row=20, column=1)
