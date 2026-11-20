@@ -3,40 +3,39 @@ from tkinter import *
 
 # Create the main window for the weather application
 root = Tk()
-root.geometry("200x200+0+0")
+root.geometry("260x280")
 root.title("Weather App")
 root.config(bg="lightblue")
 root.resizable(False, False)
 
 # Weather icon images used for different conditions
-img1 = 'img/4.png'  # default image
-img2 = 'img/1.png'  # clear sky
-img3 = 'img/2.png'  # clouds
-img4 = 'img/3.png'  # rain
-
+img_paths = {
+    "default": "img/4.png",
+    "clear": "img/1.png",
+    "clouds": "img/2.png",
+    "rain": "img/3.png",
+}
 
 # Change the window and label background colors
 def bgc(color):
     root.config(bg=color)
     des.config(bg=color)
     tem.config(bg=color)
-    if color == "black":
-        des.config(fg="white")
-        tem.config(fg="white")
-    elif color == "white":
-        des.config(fg="black")
-        tem.config(fg="black") 
-    elif color == "yellow":
-         des.config(fg="red")
-         tem.config(fg="red")
-    elif color == "lightblue":
-        des.config(fg="white")
-        tem.config(fg="white")
-                      
+
+    fg_map = {
+        "black": "white",
+        "white": "black",
+        "yellow": "red",
+        "lightblue": "white",
+    }
+    if color in fg_map:
+        des.config(fg=fg_map[color])
+        tem.config(fg=fg_map[color])
 
 
 # Read the OpenWeatherMap API key from a local text file
-api_key = open("api.txt", "r").read().strip()
+with open("api.txt", "r", encoding="utf-8") as f:
+    api_key = f.read().strip()
 
 
 # Fetch and display the weather for the entered city
@@ -51,17 +50,17 @@ def weather():
     try:
         # Request current weather data from OpenWeatherMap
         res = requests.get(
-            f"https://api.openweathermap.org/data/2.5/weather",
+            "https://api.openweathermap.org/data/2.5/weather",
             params={
                 "q": location,
                 "units": "metric",
-                "appid": api_key
+                "appid": api_key,
             },
-            timeout=10
+            timeout=10,
         )
 
-        data = res.json()
         res.raise_for_status()
+        data = res.json()
 
         # Extract the weather description and temperature from the API response
         desp = data["weather"][0]["description"]
@@ -73,55 +72,54 @@ def weather():
 
         # Change the weather image based on the condition
         if desp == "clear sky":
-            img.config(file=img2)
+            Bt.config(image=icons["clear"])
         elif "rain" in desp:
-            img.config(file=img4)
+            Bt.config(image=icons["rain"])
         elif "cloud" in desp:
-            img.config(file=img3)
+            Bt.config(image=icons["clouds"])
+        else:
+            Bt.config(image=icons["default"])
 
-    # Handle city not found
+    # Handle city not found or invalid API key
     except requests.exceptions.HTTPError:
         des.config(text="City not found!")
         tem.config(text="")
+        Bt.config(image=icons["default"])
 
     # Handle other request errors
     except requests.exceptions.RequestException:
-        des.config(text="error!")
+        des.config(text="Error!")
         tem.config(text="")
+        Bt.config(image=icons["default"])
 
 
 # Input field where the user types a city name
-lent = Entry(root).pack()
-
+lent = Entry(root)
+lent.pack(pady=(10, 5))
 
 # Label for weather description
-# (example text shown before the user searches for a city)
-des = Label(root, text="enter your city", bg="lightblue").pack()
-
+des = Label(root, text="enter your city", bg="lightblue", fg="white")
+des.pack()
 
 # Label for temperature
-# (initially empty until a city is searched)
-tem = Label(root, text="", bg="lightblue")
-tem.pack()
+tem = Label(root, text="", bg="lightblue", fg="white")
+tem.pack(pady=(0, 5))
 
-# Buttons for weather search and background color changes
-# Note: The button for fetching weather is created later after the image is loaded.
-
-# Load the default weather image for the button
-img = PhotoImage(file=img1)
+# Load weather images and keep references so Tkinter doesn't garbage-collect them
+icons = {key: PhotoImage(file=path) for key, path in img_paths.items()}
 
 # Weather button with image and command to fetch weather
-Bt = Button(root, text="get weather", command=weather, image=img)
-Bt.pack()
+Bt = Button(root, text="get weather", command=weather, image=icons["default"])
+Bt.pack(pady=5)
 
 fr = Frame(root, bg="lightgray", bd=2, relief=SOLID)
-fr.pack(side=BOTTOM)
+fr.pack(side=BOTTOM, pady=8)
 
 # Background color buttons
-black = Button(fr, text="black", command=lambda: bgc("black")).grid(row=20, column=1)
-white = Button(fr, text="white", command=lambda: bgc("white")).grid(row=20, column=3)
-lightblue = Button(fr, text="lightblue", command=lambda: bgc("lightblue")).grid(row=20, column=5)
-yellow = Button(fr, text="yellow", command=lambda: bgc("yellow")).grid(row=20, column=7)
+Button(fr, text="black", command=lambda: bgc("black")).grid(row=0, column=0, padx=2, pady=2)
+Button(fr, text="white", command=lambda: bgc("white")).grid(row=0, column=1, padx=2, pady=2)
+Button(fr, text="lightblue", command=lambda: bgc("lightblue")).grid(row=0, column=2, padx=2, pady=2)
+Button(fr, text="yellow", command=lambda: bgc("yellow")).grid(row=0, column=3, padx=2, pady=2)
 
 # Start the Tkinter event loop
 root.mainloop()
